@@ -102,4 +102,21 @@ app.post("/register-and-broadcast-node", (req, res) => {
     });
 });
 
+// register a node with the network
+app.post("/register-node", (req, res) => {
+  const { newNodeUrl } = req.body;
+
+  // check if the node is not already present in the network and it's not the current node
+  if (
+    !bitcoin.networkNodes.includes(newNodeUrl) &&
+    bitcoin.currentNodeUrl !== newNodeUrl
+  ) {
+    bitcoin.networkNodes.push(newNodeUrl);
+  }
+
+  res.json({
+    message: "Success! New node succesfully registered in the network"
+  });
+});
+
 app.listen(port, () => console.log(`Listening on port: ${port}`));
